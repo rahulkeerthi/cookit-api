@@ -6,7 +6,6 @@ one:
   ingredients: MyString
   link_url: MyString
   price: 1.5
-  kit_category: one
   restaurant: one
 
 two:
@@ -15,5 +14,4 @@ two:
   ingredients: MyString
   link_url: MyString
   price: 1.5
-  kit_category: two
   restaurant: two

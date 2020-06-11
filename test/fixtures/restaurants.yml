@@ -10,7 +10,6 @@ one:
   address2: MyString
   description: MyText
   delivery_options: MyString
-  restaurant_category: one
   email: MyString
   twitter: MyString
   facebook: MyString
@@ -28,7 +27,6 @@ two:
   address2: MyString
   description: MyText
   delivery_options: MyString
-  restaurant_category: two
   email: MyString
   twitter: MyString
   facebook: MyString
