@@ -1,0 +1,2 @@
+class KitCategory < ApplicationRecord
+end
