@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_11_135819) do
+ActiveRecord::Schema.define(version: 2020_06_11_152834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,10 +35,13 @@ ActiveRecord::Schema.define(version: 2020_06_11_135819) do
     t.index ["restaurant_id"], name: "index_kits_on_restaurant_id"
   end
 
-  create_table "restaurant_categories", force: :cascade do |t|
-    t.string "name"
+  create_table "restaurant_tags", force: :cascade do |t|
+    t.bigint "restaurant_id", null: false
+    t.bigint "tag_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["restaurant_id"], name: "index_restaurant_tags_on_restaurant_id"
+    t.index ["tag_id"], name: "index_restaurant_tags_on_tag_id"
   end
 
   create_table "restaurants", force: :cascade do |t|
@@ -51,7 +54,6 @@ ActiveRecord::Schema.define(version: 2020_06_11_135819) do
     t.string "address2"
     t.text "description"
     t.string "delivery_options"
-    t.bigint "restaurant_category_id", null: false
     t.string "email"
     t.string "twitter"
     t.string "facebook"
@@ -60,7 +62,21 @@ ActiveRecord::Schema.define(version: 2020_06_11_135819) do
     t.string "contact_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["restaurant_category_id"], name: "index_restaurants_on_restaurant_category_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "user_restaurants", force: :cascade do |t|
+    t.bigint "restaurant_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["restaurant_id"], name: "index_user_restaurants_on_restaurant_id"
+    t.index ["user_id"], name: "index_user_restaurants_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -72,5 +88,8 @@ ActiveRecord::Schema.define(version: 2020_06_11_135819) do
 
   add_foreign_key "kits", "kit_categories"
   add_foreign_key "kits", "restaurants"
-  add_foreign_key "restaurants", "restaurant_categories"
+  add_foreign_key "restaurant_tags", "restaurants"
+  add_foreign_key "restaurant_tags", "tags"
+  add_foreign_key "user_restaurants", "restaurants"
+  add_foreign_key "user_restaurants", "users"
 end
