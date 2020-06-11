@@ -28,7 +28,6 @@ class UsersController < ApplicationController
     end
   end
 
-
   def auto_login
     # Since the method, authorized, will run before auto_login, the chain of methods in the application controller will also run
     # One of the methods, logged_in_user, will return a global @user variable that is accessible.
