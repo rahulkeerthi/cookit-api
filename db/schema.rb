@@ -10,15 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_06_11_152834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "kit_categories", force: :cascade do |t|
-    t.string "name"
+  create_table "kit_tags", force: :cascade do |t|
+    t.bigint "kit_id", null: false
+    t.bigint "tag_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["kit_id"], name: "index_kit_tags_on_kit_id"
+    t.index ["tag_id"], name: "index_kit_tags_on_tag_id"
   end
 
   create_table "kits", force: :cascade do |t|
@@ -27,11 +31,9 @@ ActiveRecord::Schema.define(version: 2020_06_11_152834) do
     t.string "ingredients"
     t.string "link_url"
     t.float "price"
-    t.bigint "kit_category_id", null: false
     t.bigint "restaurant_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["kit_category_id"], name: "index_kits_on_kit_category_id"
     t.index ["restaurant_id"], name: "index_kits_on_restaurant_id"
   end
 
@@ -86,7 +88,8 @@ ActiveRecord::Schema.define(version: 2020_06_11_152834) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "kits", "kit_categories"
+  add_foreign_key "kit_tags", "kits"
+  add_foreign_key "kit_tags", "tags"
   add_foreign_key "kits", "restaurants"
   add_foreign_key "restaurant_tags", "restaurants"
   add_foreign_key "restaurant_tags", "tags"
