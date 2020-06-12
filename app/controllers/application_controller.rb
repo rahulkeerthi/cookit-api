@@ -16,8 +16,6 @@ class ApplicationController < ActionController::API
     request.headers['Authorization']
   end
 
-
-
   def decoded_token
     if auth_header
       # To get just the token, we will use the .split(" ")[1] method on Bearer <token>
@@ -52,7 +50,7 @@ class ApplicationController < ActionController::API
   end
 
   def require_login
-    render json: {message: 'Please log in'}, status: :unauthorized unless logged_in?
+    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
 
   # checks whether a user is authorized. If a user is not logged in or a request is not sending the necessary credentials, this method will send back a JSON response, asking them to log in.
@@ -64,11 +62,15 @@ class ApplicationController < ActionController::API
 
   def session_user
     decoded_hash = decoded_token
-    if !decoded_hash.empty?
+    unless decoded_hash.empty?
       user_id = decoded_hash[0]['user_id']
       @user = User.find_by(id: user_id)
-    else
-      nil
     end
+  end
+
+  def as_json(object, object_to_include = nil, status = :ok)
+    render json: object.as_json(
+      include: object_to_include
+    ), status: status
   end
 end

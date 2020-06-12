@@ -1,13 +1,13 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :destroy]
+  before_action :set_restaurant, only: %i[show destroy]
 
   def index
     @restaurants = Restaurant.all
-    render json: @restaurants
+    as_json(@restaurants, %i[kits tags])
   end
 
   def show
-    render json: @restaurant
+    as_json(@restaurant, %i[kits tags])
   end
 
   def update
