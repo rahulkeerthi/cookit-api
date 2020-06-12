@@ -4,5 +4,5 @@ class Tag < ApplicationRecord
   has_many :kit_tags
   has_many :kits, through: :kit_tags
 
-  validates :name, presence: true, length: { minimum: 6 }
+  validates :name, presence: true, length: { minimum: 3 }
 end
