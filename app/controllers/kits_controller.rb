@@ -12,7 +12,7 @@ class KitsController < ApplicationController
 
   def update
     if @kit.update(kit_params)
-      render :show
+      as_json(@kit, %i[restaurant tags], :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class KitsController < ApplicationController
   def create
     @kit = Kit.new(kit_params)
     if @kit.save
-      render :show, status: :created
+      as_json(@kit, %i[restaurant tags], :created)
     else
       render_error
     end
@@ -29,7 +29,7 @@ class KitsController < ApplicationController
 
   def destroy
     @kit.destroy
-    head :no_content
+    render :deleted
   end
 
   private

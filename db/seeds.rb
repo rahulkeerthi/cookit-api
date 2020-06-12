@@ -14,7 +14,7 @@ tag = Tag.create!(name: "Burger")
 
 resto = Restaurant.create!(name:"Le Wagon and Sons", description:"this is a test description", city:"London", postcode: "N51EG", address1: "123 blackstock road", website_url: "https://www.test.com", email: "test@test.com")
 
-kit = Kit.new(name:"Beetroot burger Kit", description:"Cook your own burgers", ingredients:"Burger", link_url: "https://www.test.com", price: 1.6)
+kit = Kit.new(name:"Beetroot burger Kit", description:"Cook your own burgers", ingredients:"Burger", link_url: "https://www.test.com", price: 12.6)
 kit.restaurant = resto
 kit.save!
 
