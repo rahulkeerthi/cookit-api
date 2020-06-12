@@ -10,4 +10,15 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def auth_tokens_for_user(user)
+    # The argument 'user' should be a hash that includes the params 'email' and 'password'.
+    post "/login",
+      params: 
+        { username: user.username, 
+          password: user.password 
+        },
+      as: :json
+    # The three categories below are the ones you need as authentication headers.
+    JSON.parse(response.body)["jwt"]
+  end
 end

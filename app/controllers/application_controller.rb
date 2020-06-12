@@ -28,7 +28,7 @@ class ApplicationController < ActionController::API
         JWT.decode(token, 's3cr3t', true, algorithm: 'HS256')
         # Otherwise, if there is an error, it will return nil.
       rescue JWT::DecodeError
-        nil
+        []
       end
     end
   end
@@ -51,10 +51,24 @@ class ApplicationController < ActionController::API
     !!logged_in_user
   end
 
+  def require_login
+    render json: {message: 'Please log in'}, status: :unauthorized unless logged_in?
+  end
+
   # checks whether a user is authorized. If a user is not logged in or a request is not sending the necessary credentials, this method will send back a JSON response, asking them to log in.
   # To determine that information, the method logged_in? is called which checks if a user is logged in or not.
 
   def authorized
     render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+  end
+
+  def session_user
+    decoded_hash = decoded_token
+    if !decoded_hash.empty?
+      user_id = decoded_hash[0]['user_id']
+      @user = User.find_by(id: user_id)
+    else
+      nil
+    end
   end
 end
