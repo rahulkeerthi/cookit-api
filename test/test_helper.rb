@@ -26,6 +26,46 @@ class ActiveSupport::TestCase
     testuser1 = User.create(username: 'username1', password: 'password1')
     @auth_tokens = auth_tokens_for_user(testuser1)
     @header = { "Authorization" => "Bearer #{@auth_tokens}" }
+  
+
+  @restaurants = [
+    {
+      name: "Le Wagon and Sons",
+      description:"A fantastic restaurants for coders",
+      city:"London",
+      postcode: "N5 1EG",
+      address1: "123 blackstock road",
+      website_url: "https://www.test.com",
+      email: "test@test.com"
+    },
+    {
+      name: "Hoxton Eats",
+      description:"Hoxton's finest brunch place",
+      city:"London",
+      postcode: "N43XY",
+      address1: "123 Moulmein Road",
+      website_url: "https://www.wow.org",
+      email: "test@test.org"
+    }
+  ]
+
+  @kits = [
+    {
+      name: "Beetroot burger kit",
+      description: "Make your own burgers!",
+      ingredients: "Burger",
+      link_url: "https://www.test.com",
+      price: 12.6,
+    },
+    {
+      name: "Hawaian pizza",
+      description: "No one likes pineapple on pizzas",
+      ingredients: "Pineapple",
+      link_url: "https://www.test2.com",
+      price: 8.9,
+    }
+  ]
+
   end
 
 end
