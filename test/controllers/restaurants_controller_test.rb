@@ -24,12 +24,6 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
     }
   ]
 
-  setup do
-    testuser = User.create(username: 'username', password: 'password')
-    @auth_tokens = auth_tokens_for_user(testuser)
-    @header = { "Authorization" => "Bearer #{@auth_tokens}" }
-  end
-
   test "should get index" do
     get "/restaurants", headers: @header, as: :json
     assert_response :success

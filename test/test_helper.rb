@@ -21,4 +21,11 @@ class ActiveSupport::TestCase
     # The three categories below are the ones you need as authentication headers.
     JSON.parse(response.body)["jwt"]
   end
+
+  setup do
+    testuser1 = User.create(username: 'username1', password: 'password1')
+    @auth_tokens = auth_tokens_for_user(testuser1)
+    @header = { "Authorization" => "Bearer #{@auth_tokens}" }
+  end
+
 end
