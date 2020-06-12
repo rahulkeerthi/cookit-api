@@ -1,18 +1,18 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :destroy]
+  before_action :set_restaurant, only: %i[show destroy]
 
   def index
     @restaurants = Restaurant.all
-    render json: @restaurants
+    as_json(@restaurants, %i[kits tags])
   end
 
   def show
-    render json: @restaurant
+    as_json(@restaurant, %i[kits tags])
   end
 
   def update
     if @restaurant.update(restaurant_params)
-      render :show
+      as_json(@restaurant, %i[kits tags], :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      render :show, status: :created
+      as_json(@restaurant, %i[kits tags], :created)
     else
       render_error
     end
@@ -29,7 +29,7 @@ class RestaurantsController < ApplicationController
 
   def destroy
     @restaurant.destroy
-    head :no_content
+    render :deleted
   end
 
   private

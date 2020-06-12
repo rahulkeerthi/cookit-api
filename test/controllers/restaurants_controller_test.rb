@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class RestaurantsControllerTest < ActionDispatch::IntegrationTest
-
   Restaurant.destroy_all
 
   restaurants = [
@@ -12,7 +11,7 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
       postcode: "N5 1EG",
       address1: "123 blackstock road",
       website_url: "https://www.test.com",
-      email: "test@test.com"      
+      email: "test@test.com"
     },
     {
       name: "Hoxton Eats",
@@ -21,7 +20,7 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
       postcode: "N43XY",
       address1: "123 Moulmein Road",
       website_url: "https://www.wow.org",
-      email: "test@test.org"      
+      email: "test@test.org"
     }
   ]
 
@@ -30,7 +29,6 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
     @auth_tokens = auth_tokens_for_user(testuser)
     @header = { "Authorization" => "Bearer #{@auth_tokens}" }
   end
-  
 
   test "should get index" do
     get "/restaurants", headers: @header, as: :json
@@ -53,5 +51,4 @@ class RestaurantsControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
     end
   end
-
 end
