@@ -11,7 +11,7 @@ class Kit < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0, message: "Price can't be negative!" }
 
   # URI.regexp provides built-in regexp for different URL types (in this case, http and https)
-  validates :link_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http,https]) }
+  validates :link_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
 
   # TODO: add photos for kits (Cloudinary or something else?) with validation etc
   # TODO: ingredients is currently a string - should we save as an stringified array or a text description or...? Might be some value in storing ingredients to enable a polymorphic search (restaurants, kits, ingredients, descriptions, locations, etc.)
