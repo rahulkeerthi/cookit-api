@@ -14,9 +14,10 @@ require_relative 'airtable_loader'
 # kit_tag.tag = tag
 # kit_tag.save!
 
-Restaurant.destroy_all
 Kit.destroy_all
+RestaurantTag.destroy_all
 Tag.destroy_all
+Restaurant.destroy_all
 User.destroy_all
 
 puts "Creating User!"
@@ -41,7 +42,7 @@ end
 puts "Tags Created!"
 
 puts "Creating Restaurants!"
-restaurant_attributes = %i(name description city postcode address1 address2 delivery_options email twitter facebook instagram website_url contact_name)
+restaurant_attributes = Restaurant.column_names.map(&:to_sym)
 restaurants_data[:records].each do |record|
   # create new resto using kv pairs that match key from restaurant_attributes list above
   resto = Restaurant.create!(record[:fields].select {|k,v| restaurant_attributes.include?(k)}) 
@@ -59,7 +60,7 @@ end
 puts "Restaurants Created!"
 
 puts "Creating Kits!"
-kit_attributes = %i(name description ingredients link_url price restaurant_id)
+kit_attributes = Kit.column_names.map(&:to_sym)
 kits_data[:records].each do |record|
   # create new resto using kv pairs that match key from kit_attributes list above
   kit = Kit.new(record[:fields].select {|k,v| kit_attributes.include?(k)})
