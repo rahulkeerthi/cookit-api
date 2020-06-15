@@ -21,6 +21,9 @@ gem 'active_model_serializers'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+# AWS S3 SDK for image storage
+gem 'aws-sdk-s3', require: false
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

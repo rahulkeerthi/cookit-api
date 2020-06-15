@@ -3,6 +3,8 @@ require 'uri'
 class Restaurant < ApplicationRecord
   has_many :restaurant_tags
   has_many :tags, through: :restaurant_tags
+  has_many_attached :photos
+  has_one_attached :logo
 
   has_many :kits, dependent: :destroy
 

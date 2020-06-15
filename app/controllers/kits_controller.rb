@@ -3,16 +3,16 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, %i[restaurant tags])
+    as_json(@kits, %i[restaurant tags photos])
   end
 
   def show
-    as_json(@kit, %i[restaurant tags])
+    as_json(@kit, %i[restaurant tags photos])
   end
 
   def update
     if @kit.update(kit_params)
-      as_json(@kit, %i[restaurant tags], :updated)
+      as_json(@kit, %i[restaurant tags photos], :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class KitsController < ApplicationController
   def create
     @kit = Kit.new(kit_params)
     if @kit.save
-      as_json(@kit, %i[restaurant tags], :created)
+      as_json(@kit, %i[restaurant tags photos], :created)
     else
       render_error
     end
@@ -35,7 +35,7 @@ class KitsController < ApplicationController
   private
 
   def kit_params
-    params.require(:kit).permit(:name, :description, :ingredients, :link_url, :price, :restaurant_id)
+    params.require(:kit).permit(:name, :description, :ingredients, :link_url, :price, :restaurant_id, photos: [])
   end
 
   def render_error
