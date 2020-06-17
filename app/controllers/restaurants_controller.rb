@@ -3,13 +3,13 @@ class RestaurantsController < ApplicationController
 
   def index
     @restaurants = Restaurant.all
-    as_json(@restaurants, [:kits, :tags, photos: { methods: :service_url }, :logo { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
+    as_json(@restaurants, [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
   end
 
   def show
     as_json(@restaurant, [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
   end
-  
+
 
   def update
     if @restaurant.update(restaurant_params)
