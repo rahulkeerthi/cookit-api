@@ -1,5 +1,5 @@
 require_relative 'airtable_loader'
-
+require 'open-uri'
 
 # tag = Tag.create!(name: "Burger")
 
@@ -45,7 +45,14 @@ puts "Creating Restaurants!"
 restaurant_attributes = Restaurant.column_names.map(&:to_sym)
 restaurants_data[:records].each do |record|
   # create new resto using kv pairs that match key from restaurant_attributes list above
-  resto = Restaurant.create!(record[:fields].select {|k,v| restaurant_attributes.include?(k)}) 
+  resto = Restaurant.new(record[:fields].select {|k,v| restaurant_attributes.include?(k)})
+  record[:fields][:photos].each do |photo|
+    photo_file = URI.open(photo[:url])
+    resto.photos.attach(io: photo_file, filename: photo[:filename])
+  end
+  logo_file = URI.open(record[:fields][:logo][0][:url])
+  resto.logo.attach(io: logo_file, filename: record[:fields][:logo][0][:filename])
+  resto.save!
   # returns array of airtable tag id strings
   resto_tag_ids = record[:fields][:tags] 
   # for each resto_tags_id find the right tag in the airtable API response for tags 
@@ -72,6 +79,10 @@ kits_data[:records].each do |record|
   restaurant = Restaurant.find_by_name(restaurant[:fields][:name])
   # assign the restaurant to the kit and save
   kit.restaurant = restaurant
+  record[:fields][:photos].each do |photo|
+    photo_file = URI.open(photo[:url])
+    kit.photos.attach(io: photo_file, filename: photo[:filename])
+  end
   kit.save!
 end
 puts "Kits Created!"

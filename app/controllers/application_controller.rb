@@ -70,7 +70,7 @@ class ApplicationController < ActionController::API
 
   def as_json(object, object_to_include = nil, status = :ok)
     render json: object.as_json(
-      include: object_to_include
+      include: object_to_include,
     ), status: status
   end
 end

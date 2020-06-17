@@ -3,6 +3,7 @@ class Kit < ApplicationRecord
   belongs_to :restaurant
   has_many :kit_tags
   has_many :tags, through: :kit_tags
+  has_many_attached :photos
 
   validates :name, presence: true, length: { minimum: 6 }
   validates :description, presence: true, length: { minimum: 20 }
