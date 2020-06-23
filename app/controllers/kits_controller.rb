@@ -3,16 +3,16 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, [restaurant: { only: :name, methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kits, nil,[restaurant: { only: :name, methods: :tags }, photos: { methods: :service_url }])
   end
 
   def show
-    as_json(@kit, [restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kit, nil,[restaurant: { methods: :tags }, photos: { methods: :service_url }])
   end
 
   def update
     if @kit.update(kit_params)
-      as_json(@kit, [restaurant: { methods: :tags }, photos: { methods: :service_url }], :updated)
+      as_json(@kit, nil,[restaurant: { methods: :tags }, photos: { methods: :service_url }], :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class KitsController < ApplicationController
   def create
     @kit = Kit.new(kit_params)
     if @kit.save
-      as_json(@kit, [restaurant: { methods: :tags }, photos: { methods: :service_url }], :created)
+      as_json(@kit, nil,[restaurant: { methods: :tags }, photos: { methods: :service_url }], :created)
     else
       render_error
     end

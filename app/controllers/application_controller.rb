@@ -68,8 +68,9 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def as_json(object, object_to_include = nil, status = :ok)
+  def as_json(object, methods_to_invoke = nil, object_to_include = nil, status = :ok)
     render json: object.as_json(
+      methods: methods_to_invoke,
       include: object_to_include
     ), status: status
   end
