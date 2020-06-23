@@ -3,7 +3,7 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, [restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kits, [restaurant: { only: :name, methods: :tags }, photos: { methods: :service_url }])
   end
 
   def show
