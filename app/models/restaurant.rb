@@ -21,6 +21,10 @@ class Restaurant < ApplicationRecord
   validates :website_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
   validates :email, presence: true, format: { with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: 'Not a valid email address' }
 
+  def kit_count
+    self.kits.count
+  end
+
   # TODO: add geocoding (long, lat columns) with a geocoder gem/API (Mapbox? Google?)
   # TODO: add logo and photos for restaurants (Cloudinary or something else?)
 end

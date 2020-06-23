@@ -2,17 +2,17 @@ class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: %i[show destroy]
 
   def index
-    @restaurants = Restaurant.all
-    as_json(@restaurants, [:tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
+    @restaurants = Restaurant.includes(:kits).all
+    as_json(@restaurants, :kit_count, [:tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
   end
 
   def show
-    as_json(@restaurant, [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
+    as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
   end
 
   def update
     if @restaurant.update(restaurant_params)
-      as_json(@restaurant, [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :updated)
+      as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      as_json(@restaurant, [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :created)
+      as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :created)
     else
       render_error
     end
