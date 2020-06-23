@@ -45,7 +45,7 @@ puts "Creating Restaurants!"
 restaurant_attributes = Restaurant.column_names.map(&:to_sym)
 restaurants_data[:records].each do |record|
   # create new resto using kv pairs that match key from restaurant_attributes list above
-  resto = Restaurant.new(record[:fields].select {|k,v| restaurant_attributes.include?(k)})
+  resto = Restaurant.new(record[:fields].select { |k, _v| restaurant_attributes.include?(k) })
   record[:fields][:photos].each do |photo|
     photo_file = URI.open(photo[:url])
     resto.photos.attach(io: photo_file, filename: photo[:filename])
@@ -54,8 +54,8 @@ restaurants_data[:records].each do |record|
   resto.logo.attach(io: logo_file, filename: record[:fields][:logo][0][:filename])
   resto.save!
   # returns array of airtable tag id strings
-  resto_tag_ids = record[:fields][:tags] 
-  # for each resto_tags_id find the right tag in the airtable API response for tags 
+  resto_tag_ids = record[:fields][:tags]
+  # for each resto_tags_id find the right tag in the airtable API response for tags
   resto_tag_ids.each do |tag_id|
     tag = tags_data[:records].find { |x| x[:id] == tag_id}
     # find tag in db that matches the name of the tag
@@ -70,11 +70,11 @@ puts "Creating Kits!"
 kit_attributes = Kit.column_names.map(&:to_sym)
 kits_data[:records].each do |record|
   # create new resto using kv pairs that match key from kit_attributes list above
-  kit = Kit.new(record[:fields].select {|k,v| kit_attributes.include?(k)})
-  # store airtable restaurant id (string) for this kit 
+  kit = Kit.new(record[:fields].select { |k, _v| kit_attributes.include?(k) })
+  # store airtable restaurant id (string) for this kit
   kit_resto_id = record[:fields][:restaurant][0]
   # find restaurant in API response that matches kit resto id above
-  restaurant = restaurants_data[:records].find { |x| x[:id] == kit_resto_id}
+  restaurant = restaurants_data[:records].find { |x| x[:id] == kit_resto_id }
   # find restaurant in db that matches the name of the restaurant
   restaurant = Restaurant.find_by_name(restaurant[:fields][:name])
   # assign the restaurant to the kit and save
