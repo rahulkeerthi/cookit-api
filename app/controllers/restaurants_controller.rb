@@ -3,16 +3,16 @@ class RestaurantsController < ApplicationController
 
   def index
     @restaurants = Restaurant.includes(:kits).all
-    as_json(@restaurants, :kit_count, [:tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
+    as_json(@restaurants, methods_to_invoke: :kit_count, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
   end
 
   def show
-    as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
+    as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
   end
 
   def update
     if @restaurant.update(restaurant_params)
-      as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :updated)
+      as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], status: :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      as_json(@restaurant, nil,[:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], :created)
+      as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], status: :created)
     else
       render_error
     end
@@ -39,8 +39,7 @@ class RestaurantsController < ApplicationController
   end
 
   def render_error
-    render json: { errors: @restaurant.errors.full_messages },
-      status: :unprocessable_entity
+    render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
   end
 
   def set_restaurant
