@@ -19,7 +19,7 @@ class Restaurant < ApplicationRecord
 
   # URI.regexp provides built-in regexp for different URL types (in this case, http and https)
   validates :website_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
-  validates :email, format: { with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: 'Not a valid email address' }
+  validates :email, allow_blank: true, format: { with: /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i, message: 'Not a valid email address' }
 
 
   def kit_count
