@@ -18,6 +18,8 @@ gem 'rb-fsevent'
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers'
 
+gem 'algoliasearch'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 

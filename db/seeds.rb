@@ -1,5 +1,6 @@
 require_relative 'airtable_loader'
 require 'open-uri'
+require 'algoliasearch'
 
 # tag = Tag.create!(name: "Burger")
 
@@ -14,10 +15,11 @@ require 'open-uri'
 # kit_tag.tag = tag
 # kit_tag.save!
 
+KitTag.destroy_all
 Kit.destroy_all
 RestaurantTag.destroy_all
-Tag.destroy_all
 Restaurant.destroy_all
+Tag.destroy_all
 User.destroy_all
 
 puts "Creating User!"
@@ -95,3 +97,17 @@ kits_data[:records].each do |record|
   end
 end
 puts "Kits Created!"
+
+puts "Sending data to Algolia..."
+
+Algolia.init(
+  application_id: '72XDT6UIC9',
+  api_key: ENV['ALGOLIA_API_KEY']
+)
+index = Algolia::Index.new('kits')
+
+kits = Kit.all.to_a
+
+index.add_objects(kits)
+
+
