@@ -32,13 +32,13 @@ class KitsController < ApplicationController
     
     most_similar_kits = similar_kits.slice!(0,3).to_h.keys
     
-    as_json(most_similar_kits, photos: { methods: :service_url }])
+    as_json(most_similar_kits, photos: { methods: :service_url })
   end
 
   def related_by_restaurant
     @restaurant = @kit.restaurant
     @restaurant_kits = @restaurant.kits
-    as_json(@restaurant_kits, photos: { methods: :service_url }])
+    as_json(@restaurant_kits, photos: { methods: :service_url })
   end
 
   def create
