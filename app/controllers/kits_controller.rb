@@ -3,7 +3,7 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, object_to_include: [restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kits, photos: { methods: :service_url }])
   end
 
   def show
@@ -32,13 +32,13 @@ class KitsController < ApplicationController
     
     most_similar_kits = similar_kits.slice!(0,3).to_h.keys
     
-    as_json(most_similar_kits)
+    as_json(most_similar_kits, photos: { methods: :service_url }])
   end
 
   def restaurant_kits
     @restaurant = @kit.restaurant
     @restaurant_kits = @restaurant.kits
-    as_json(@restaurant_kits, object_to_include: [restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@restaurant_kits, photos: { methods: :service_url }])
   end
 
   def create
