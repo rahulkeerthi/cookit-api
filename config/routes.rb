@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   resources :restaurants
   resources :kits do
     member do
-      get 'related_by_tag', to: "kits#related_by_tag"
-      get 'related_by_restaurant', to: "kits#related_by_restaurant"
+      get 'related_by_tag'
+      get 'related_by_restaurant'
     end
   end
 end
