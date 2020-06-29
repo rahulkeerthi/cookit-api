@@ -1,5 +1,5 @@
 class KitsController < ApplicationController
-  before_action :set_kit, only: %i[show destroy]
+  before_action :set_kit, only: %i[show related_by_tag related_by_restaurant destroy]
 
   def index
     @kits = Kit.all
@@ -16,6 +16,29 @@ class KitsController < ApplicationController
     else
       render_error
     end
+  end
+
+  def related_by_tag
+    tags = @kit.tags
+    similar_kits = Hash.new(0)
+    
+    tags.each do |tag|
+      tag.kits.each do |kit|
+        similar_kits[kit] += 1 unless kit == @kit
+      end
+    end
+
+    similar_kits = similar_kits.sort_by { |k,v| -v }
+    
+    most_similar_kits = similar_kits.slice!(0,3).to_h.keys
+    
+    as_json(most_similar_kits, photos: { methods: :service_url }])
+  end
+
+  def related_by_restaurant
+    @restaurant = @kit.restaurant
+    @restaurant_kits = @restaurant.kits
+    as_json(@restaurant_kits, photos: { methods: :service_url }])
   end
 
   def create

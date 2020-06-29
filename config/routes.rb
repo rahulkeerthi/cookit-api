@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   get "/auto_login", to: "users#auto_login"
   get "/user_is_authed", to: "users#user_is_authed"
 
-
   resources :restaurants
-  resources :kits
+  resources :kits do
+    member do
+      get 'related_by_tag'
+      get 'related_by_restaurant'
+    end
+  end
 end
