@@ -7,5 +7,6 @@ Rails.application.routes.draw do
 
   resources :restaurants
   resources :kits
+  get 'similar_kits/:id', to: "kits#similar_kits"
   get 'restaurant_kits/:id', to: "kits#restaurant_kits"
 end

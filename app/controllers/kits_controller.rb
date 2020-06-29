@@ -1,5 +1,5 @@
 class KitsController < ApplicationController
-  before_action :set_kit, only: %i[show restaurant_kits destroy]
+  before_action :set_kit, only: %i[show similar_kits restaurant_kits destroy]
 
   def index
     @kits = Kit.all
@@ -16,6 +16,23 @@ class KitsController < ApplicationController
     else
       render_error
     end
+  end
+
+  def similar_kits
+    tags = @kit.restaurant.tags
+    similar_kits = Hash.new(0)
+    
+    tags.each do |tag|
+      tag.restaurants.each do |restaurant|
+        restaurant.kits do |kit|
+          similar_kits[kit] += 1 unless kit == @kit
+        end
+      end
+    end
+
+    similar_kits = similar_kits.sort_by { |k,v| -v }
+    
+    as_json(tags)
   end
 
   def restaurant_kits
