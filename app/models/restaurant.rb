@@ -26,6 +26,10 @@ class Restaurant < ApplicationRecord
     self.kits.count
   end
 
+  def logo_service_url
+    self.logo.service_url
+  end
+
   # TODO: add geocoding (long, lat columns) with a geocoder gem/API (Mapbox? Google?)
   # TODO: add logo and photos for restaurants (Cloudinary or something else?)
 end

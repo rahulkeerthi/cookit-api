@@ -3,11 +3,11 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kits, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls])
   end
 
   def show
-    as_json(@kit, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kit, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls], object_to_include: [restaurant: { methods: :tags }])
   end
 
   def update
@@ -32,19 +32,19 @@ class KitsController < ApplicationController
 
     related_by_tag = most_similar_kits.slice!(0,3).to_h.keys
 
-    as_json(related_by_tag, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(related_by_tag, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls])
   end
 
   def related_by_restaurant
     @restaurant = @kit.restaurant
     @restaurant_kits = @restaurant.kits
-    as_json(@restaurant_kits, object_to_include: [tags: { only: :name }, photos: { methods: :service_url }])
+    as_json(@restaurant_kits, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls])
   end
 
   def create
     @kit = Kit.new(kit_params)
     if @kit.save
-      as_json(@kit, object_to_include: [restaurant: { methods: :tags }, photos: { methods: :service_url }], status: :created)
+      as_json(@kit, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls], status: :created)
     else
       render_error
     end
