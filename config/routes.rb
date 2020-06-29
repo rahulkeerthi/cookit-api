@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "/auto_login", to: "users#auto_login"
   get "/user_is_authed", to: "users#user_is_authed"
 
-
   resources :restaurants
   resources :kits
+  get 'restaurant_kits/:id', to: "kits#restaurant_kits"
 end

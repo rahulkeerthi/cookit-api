@@ -1,5 +1,5 @@
 class KitsController < ApplicationController
-  before_action :set_kit, only: %i[show destroy]
+  before_action :set_kit, only: %i[show restaurant_kits destroy]
 
   def index
     @kits = Kit.all
@@ -16,6 +16,12 @@ class KitsController < ApplicationController
     else
       render_error
     end
+  end
+
+  def restaurant_kits
+    @restaurant = @kit.restaurant
+    @restaurant_kits = @restaurant.kits
+    as_json(@restaurant_kits, object_to_include: [restaurant: { methods: :tags }, photos: { methods: :service_url }])
   end
 
   def create
