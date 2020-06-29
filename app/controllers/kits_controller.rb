@@ -3,11 +3,11 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
+    as_json(@kits, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
   end
 
   def show
-    as_json(@kit, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
+    as_json(@kit, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
   end
 
   def update
@@ -21,24 +21,24 @@ class KitsController < ApplicationController
   def related_by_tag
     tags = @kit.tags
     similar_kits = Hash.new(0)
-    
+
     tags.each do |tag|
       tag.kits.each do |kit|
         similar_kits[kit] += 1 unless kit == @kit
       end
     end
 
-    similar_kits = similar_kits.sort_by { |k,v| -v }
-    
-    most_similar_kits = similar_kits.slice!(0,3).to_h.keys
-    
-    as_json(most_similar_kits, photos: { methods: :service_url })
+    most_similar_kits = similar_kits.sort_by { |k,v| -v }
+
+    related_by_tag = most_similar_kits.slice!(0,3).to_h.keys
+
+    as_json(related_by_tag, object_to_include: [tags: { only: :name }, restaurant: { methods: :tags }, photos: { methods: :service_url }])
   end
 
   def related_by_restaurant
     @restaurant = @kit.restaurant
     @restaurant_kits = @restaurant.kits
-    as_json(@restaurant_kits, photos: { methods: :service_url })
+    as_json(@restaurant_kits, object_to_include: [tags: { only: :name }, photos: { methods: :service_url }])
   end
 
   def create
@@ -68,5 +68,4 @@ class KitsController < ApplicationController
   def set_kit
     @kit = Kit.find(params[:id])
   end
-
 end
