@@ -3,16 +3,16 @@ class RestaurantsController < ApplicationController
 
   def index
     @restaurants = Restaurant.includes(:kits).all
-    as_json(@restaurants, methods_to_invoke: :kit_count, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
+    as_json(@restaurants, methods_to_invoke: [:tag_names, :service_urls, :kit_count, :logo_service_url])
   end
 
   def show
-    as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
+    as_json(@restaurant, methods_to_invoke: [:tag_names, :service_urls, :logo_service_url],object_to_include: :kits)
   end
 
   def update
     if @restaurant.update(restaurant_params)
-      as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], status: :updated)
+      as_json(@restaurant, methods_to_invoke: [:tag_names, :service_urls, :logo_service_url],object_to_include: :kits, status: :updated)
     else
       render_error
     end
@@ -21,7 +21,7 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      as_json(@restaurant, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }], status: :created)
+      as_json(@restaurant, methods_to_invoke: [:tag_names, :service_urls, :logo_service_url],object_to_include: :kits, status: :created)
     else
       render_error
     end

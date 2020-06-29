@@ -14,6 +14,16 @@ class Kit < ApplicationRecord
   # URI.regexp provides built-in regexp for different URL types (in this case, http and https)
   validates :link_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
 
+  def restaurant_photos
+    photos = []
+    self.restaurant.photos.each do |photo|
+      photos << photo.service_url
+    end
+    photos
+  end
+
+
+
   # TODO: ingredients is currently a string - should we save as an stringified array or a text description or...? Might be some value in storing ingredients to enable a polymorphic search (restaurants, kits, ingredients, descriptions, locations, etc.)
   # TODO: how do we implement delivery options? Each kit should only have one (i.e. all mutually exclusive), but each restaurant might have one or more (UK delivery, EU delivery, click and collect, etc.) if the kits have different options. We could do a look-up from kits to a delivery_options table. At some point, we will need to bubble up these options from the kits to the relevant restaurant so we can display one or more options available with that restaurant (e.g. "We do Click and Collect and UK Delivery")
 end
