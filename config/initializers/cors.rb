@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, logger: (-> { Rails.logger }) do
   allow do
-    origins 'cookit.vercel.app'
+    origins /\D*cookit\D*.vercel.app/
 
     resource '*',
       headers: :any,
