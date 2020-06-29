@@ -3,7 +3,7 @@ class RestaurantsController < ApplicationController
 
   def index
     @restaurants = Restaurant.includes(:kits).all
-    as_json(@restaurants, methods_to_invoke: :kit_count, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }]) # you can use any of photos, logo, photos_blob, or logo_blob
+    as_json(@restaurants, methods_to_invoke: :kit_count, object_to_include: [:kits, :tags, photos: { methods: :service_url }, logo: { methods: :service_url }])
   end
 
   def show

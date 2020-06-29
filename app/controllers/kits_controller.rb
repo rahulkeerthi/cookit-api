@@ -3,11 +3,11 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, methods_to_invoke: :tags, object_to_include: [:restaurant, photos: { methods: :service_url }])
+    as_json(@kits, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
   end
 
   def show
-    as_json(@kit, methods_to_invoke: :tags, object_to_include: [:restaurant, photos: { methods: :service_url }])
+    as_json(@kit, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
   end
 
   def update
