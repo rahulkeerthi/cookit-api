@@ -3,11 +3,11 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, photos: { methods: :service_url }])
+    as_json(@kits, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
   end
 
   def show
-    as_json(@kit, object_to_include: [restaurant: { methods: :tags }, photos: { methods: :service_url }])
+    as_json(@kit, object_to_include: [tags: { only: :name }, restaurant: { only: :name }, photos: { methods: :service_url }])
   end
 
   def update
@@ -58,7 +58,7 @@ class KitsController < ApplicationController
   private
 
   def kit_params
-    params.require(:kit).permit(:name, :description, :ingredients, :link_url, :price, :restaurant_id, photos: [])
+    params.require(:kit).permit(:name, :description, :ingredients, :link_url, :price, :restaurant_id, tags: [], photos: [])
   end
 
   def render_error
