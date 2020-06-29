@@ -84,5 +84,14 @@ kits_data[:records].each do |record|
     kit.photos.attach(io: photo_file, filename: photo[:filename])
   end
   kit.save!
+  kit_tag_ids = record[:fields][:tags]
+  # for each resto_tags_id find the right tag in the airtable API response for tags
+  kit_tag_ids.each do |tag_id|
+    tag = tags_data[:records].find { |x| x[:id] == tag_id}
+    # find tag in db that matches the name of the tag
+    tag = Tag.find_by_name(tag[:fields][:name])
+    # create RestaurantTag with each for the restaurant we just created
+    KitTag.create!(kit: kit, tag: tag)
+  end
 end
 puts "Kits Created!"
