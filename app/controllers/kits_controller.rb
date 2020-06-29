@@ -3,7 +3,7 @@ class KitsController < ApplicationController
 
   def index
     @kits = Kit.all
-    as_json(@kits, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls])
+    as_json(@kits, methods_to_invoke: [:restaurant_photos, :tag_names, :service_urls], object_to_include: [restaurant: { only: :name}])
   end
 
   def show
