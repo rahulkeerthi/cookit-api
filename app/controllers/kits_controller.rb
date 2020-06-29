@@ -1,5 +1,5 @@
 class KitsController < ApplicationController
-  before_action :set_kit, only: %i[show similar_kits restaurant_kits destroy]
+  before_action :set_kit, only: %i[show related_by_tag related_by_restaurant destroy]
 
   def index
     @kits = Kit.all
@@ -18,7 +18,7 @@ class KitsController < ApplicationController
     end
   end
 
-  def similar_kits
+  def related_by_tag
     tags = @kit.tags
     similar_kits = Hash.new(0)
     
@@ -35,7 +35,7 @@ class KitsController < ApplicationController
     as_json(most_similar_kits, photos: { methods: :service_url }])
   end
 
-  def restaurant_kits
+  def related_by_restaurant
     @restaurant = @kit.restaurant
     @restaurant_kits = @restaurant.kits
     as_json(@restaurant_kits, photos: { methods: :service_url }])

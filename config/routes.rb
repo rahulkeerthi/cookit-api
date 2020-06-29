@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   get "/user_is_authed", to: "users#user_is_authed"
 
   resources :restaurants
-  resources :kits
-  get 'similar_kits/:id', to: "kits#similar_kits"
-  get 'restaurant_kits/:id', to: "kits#restaurant_kits"
+  resources :kits do
+    member do
+      get 'related_by_tag', to: "kits#related_by_tag"
+      get 'related_by_restaurant', to: "kits#related_by_restaurant"
+    end
+  end
 end
