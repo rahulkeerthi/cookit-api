@@ -19,20 +19,20 @@ class KitsController < ApplicationController
   end
 
   def similar_kits
-    tags = @kit.restaurant.tags
+    tags = @kit.tags
     similar_kits = Hash.new(0)
     
     tags.each do |tag|
-      tag.restaurants.each do |restaurant|
-        restaurant.kits do |kit|
-          similar_kits[kit] += 1 unless kit == @kit
-        end
+      tag.kits.each do |kit|
+        similar_kits[kit] += 1 unless kit == @kit
       end
     end
 
     similar_kits = similar_kits.sort_by { |k,v| -v }
     
-    as_json(tags)
+    most_similar_kits = similar_kits.slice!(0,3).to_h.keys
+    
+    as_json(most_similar_kits)
   end
 
   def restaurant_kits
