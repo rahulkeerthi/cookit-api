@@ -103,9 +103,4 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.hosts << "api-cookit.herokuapp.com"
-  config.hosts << "cookit.vercel.app"
-  config.hosts << "https://cookit-git-master.cookit.vercel.app"
-  config.hosts << "vercel.app"
-  config.hosts << "*.vercel.app"
-
 end
