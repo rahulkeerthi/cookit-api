@@ -7,13 +7,13 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, logger: (-> { Rails.logger }) do
   allow do
-    origins [/https:\/\/\D*cookit\D*.vercel.app/, /http:\/\/\D*cookit\D*.vercel.app/, "http://cookit.vercel.app", "https://cookit.vercel.app", "https://localhost:3000", "https://localhost:3001", "http://localhost:3000", "http://localhost:3001"]
+    origins '*' 
+    # [/https:\/\/\D*cookit\D*.vercel.app/, /http:\/\/\D*cookit\D*.vercel.app/, "http://cookit.vercel.app", "https://cookit.vercel.app", "https://localhost:3000", "https://localhost:3001", "http://localhost:3000", "http://localhost:3001"]
 
     resource '*',
       headers: :any,
-      methods: [:get, :post, :options, :head],
-      expose: ['Authorization', 'Accept', 'Content-Type'],
-      credentials: true
-  end
+      methods: [:get, :post, :put, :patch, :options, :head],
+      expose: ['Authorization', 'Accept', 'Content-Type']
+    end
 end
 
