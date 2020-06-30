@@ -12,7 +12,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, lo
     resource '*',
       headers: :any,
       methods: [:get, :options, :head],
-      expose: ['Authorization']
+      expose: ['Authorization', 'Accept', 'Content-Type']
   end
 end
 
