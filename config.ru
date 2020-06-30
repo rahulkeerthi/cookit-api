@@ -5,12 +5,12 @@ require 'rack/cors'
 
 run Rails.application
 
-use Rack::Cors do
- allow do
-  origins [/https:\/\/\D*cookit\D*.vercel.app/, /http:\/\/\D*cookit\D*.vercel.app/, "https://localhost:3000", "https://localhost:3001", "http://localhost:3000", "http://localhost:3001"]
-  resource '*',
-    headers: :any,
-    methods: [:get, :options, :head],
-    expose: ['Authorization']
- end
-end
+# use Rack::Cors do
+#  allow do
+#   origins [/https:\/\/\D*cookit\D*.vercel.app/, /http:\/\/\D*cookit\D*.vercel.app/, "http://cookit.vercel.app", "https://cookit.vercel.app", "https://localhost:3000", "https://localhost:3001", "http://localhost:3000", "http://localhost:3001"]
+#   resource '*',
+#     headers: :any,
+#     methods: [:get, :options, :head],
+#     expose: ['Authorization', 'Accept', 'Content-Type']
+#   end
+# end
