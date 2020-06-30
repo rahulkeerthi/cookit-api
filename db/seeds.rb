@@ -1,6 +1,5 @@
 require_relative 'airtable_loader'
 require 'open-uri'
-require 'algoliasearch'
 
 # tag = Tag.create!(name: "Burger")
 
@@ -97,17 +96,3 @@ kits_data[:records].each do |record|
   end
 end
 puts "Kits Created!"
-
-puts "Sending data to Algolia..."
-
-Algolia.init(
-  application_id: '72XDT6UIC9',
-  api_key: ENV['ALGOLIA_API_KEY']
-)
-index = Algolia::Index.new('kits')
-
-kits = Kit.all.to_a
-
-index.add_objects(kits)
-
-
