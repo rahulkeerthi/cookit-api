@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: true, logger: (-> { Rails.logger }) do
   allow do
-    origins /https:\/\/\D*cookit\D*.vercel.app/
+    origins [/https:\/\/\D*cookit\D*.vercel.app/, /http:\/\/\D*cookit\D*.vercel.app/, "https://localhost:3000", "https://localhost:3001"]
 
     resource '*',
       headers: :any,
